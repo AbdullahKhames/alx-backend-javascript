@@ -1,11 +1,8 @@
 #!/usr/bin/node
-export default function getStudentsByLocation(students, city) {
-  if (typeof city !== 'string') {
-    throw TypeError('must be a string');
+export default function getStudentsByLocation(listStudents, city) {
+  if (!Array.isArray(listStudents)) {
+    return [];
   }
-  const filteredStudents = [];
-  if (Array.isArray(students)) {
-    filteredStudents.push(students.filter((val) => val.location === city));
-  }
-  return filteredStudents;
+
+  return listStudents.filter((student) => student.location === city);
 }
