@@ -48,7 +48,7 @@ const app = http
   .createServer((req, res) => {
     if (req.url === '/students') {
       const message = 'This is the list of our students\n';
-      countStudents(process.argv[2])
+      countStudents()
         .then((payload) => {
           res.end(message + payload.join('\n'));
         })
