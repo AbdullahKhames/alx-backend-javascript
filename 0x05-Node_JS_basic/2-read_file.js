@@ -1,5 +1,5 @@
 #!/usr/bin/node
-const fs = require('node:fs');
+const fs = require('fs');
 
 const Course = function courseConstructor(name, students) {
   this.name = name;
