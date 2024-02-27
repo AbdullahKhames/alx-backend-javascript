@@ -45,3 +45,49 @@ const emp2 = createEmployee(660);
 
 console.log(createEmployee(200));
 console.log(emp2.getCoffeeBreak());
+
+function isDirector(emp: Director | Teacher): boolean {
+  return emp instanceof Director;
+}
+
+function executeWork(emp: Director | Teacher): void {
+  if (isDirector(emp)) {
+    console.log((emp as Director).workDirectorTasks());
+  } else {
+    console.log((emp as Teacher).workTeacherTasks());
+  }
+}
+
+executeWork(createEmployee(200));
+executeWork(createEmployee(2000));
+
+type Subjects = "Math" | "History";
+
+function teachClass(todayClass: Subjects): string {
+  if (todayClass === "Math") {
+    return "Teaching Math";
+  } else {
+    return "Teaching History";
+  }
+}
+
+// Example usage:
+console.log(teachClass("Math")); // Output: Teaching Math
+console.log(teachClass("History"));
+
+
+// export function isDirector(
+//   employee: DirectorInterface | TeacherInterface
+// ): employee is DirectorInterface {
+//   return (employee as DirectorInterface).workDirectorTasks !== undefined;
+// }
+
+// export function executeWork(
+//   employee: DirectorInterface | TeacherInterface
+// ): string {
+//   if (isDirector(employee)) {
+//     return employee.workDirectorTasks();
+//   } else {
+//     return employee.workTeacherTasks();
+//   }
+// }

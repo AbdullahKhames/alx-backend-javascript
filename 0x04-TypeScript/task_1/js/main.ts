@@ -39,20 +39,27 @@ function printTeacher(firstName:string, lastName:string){
 }
 
 console.log(printTeacher("John", "Doe"));
-interface Student {
+export interface StudentClassInterface {
+  displayName(): string;
   workOnHomework(): string;
-  displayName():string;
 }
-interface StudentClassConstructor {
-  firstName: string;
-  lastName: string;
+// export interface StudentConstructor {
+//   firstName: string;
+//   lastName: string;
+// }
+//TypeScript - interface constructor https://dirask.com/posts/TypeScript-interface-constructor-kDLARp
+export interface StudentConstructor {
+  new (firstName: string, lastName: string): StudentClassInterface;
 }
 
-class StudentClass implements Student {
+class StudentClass implements StudentClassInterface {
   private firstName: string;
   private lastName: string;
-
-  constructor({ firstName, lastName }: StudentClassConstructor) {
+  // constructor(config: StudentConstructor){
+  //   this.firstName = config.firstName;
+  //   this.lastName = config.lastName;
+  // }
+  constructor(firstName: string, lastName: string){
     this.firstName = firstName;
     this.lastName = lastName;
   }
@@ -65,6 +72,19 @@ class StudentClass implements Student {
   }
 }
 
-const student = new StudentClass({ firstName: 'John', lastName: 'Doe' });
+const student = new StudentClass('John', 'Doe');
 console.log(student.workOnHomework()); // Output: Currently working
 console.log(student.displayName()); // Output: John
+
+
+function createStudent(
+  builder: StudentConstructor,
+  firstName: string,
+  lastName: string
+): StudentClassInterface {
+  return new builder(firstName, lastName);
+}
+
+
+const student2 = createStudent(StudentClass, "John", "Doe");
+console.log(student2.workOnHomework()); // Output: Currently working
