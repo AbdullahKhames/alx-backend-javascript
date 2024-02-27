@@ -2,6 +2,7 @@ const http = require("http");
 const countStudents = require("./3-read_file_async");
 
 const path = process.argv[3];
+console.log(path);
 const app = http
   .createServer((req, res) => {
     console.log(req.url);
