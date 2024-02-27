@@ -10,7 +10,7 @@ if (process.stdin.isTTY) {
 } else {
   process.stdin.on("data", (name) => {
     console.log("Welcome to Holberton School, what is your name?");
-    console.log(`Your name is: ${name}`);
+    process.stdout.write(`Your name is: ${name}`);
     console.log("This important software is now closing");
     process.exit();
   });
