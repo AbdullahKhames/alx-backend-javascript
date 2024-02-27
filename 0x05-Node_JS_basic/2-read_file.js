@@ -11,8 +11,8 @@ function countStudents(path) {
   try {
     let numberOfStudents = 0;
     const data = fs.readFileSync(path, 'utf-8');
-    console.log(data);
-    const lines = data.split('\r\n');
+    const lines = data.split('\n');
+    console.log(lines);
     for (let idx = 1; idx < lines.length; idx += 1) {
       const line = lines[idx].split(',');
       if (line[0] && line[0] !== 'firstname') {
