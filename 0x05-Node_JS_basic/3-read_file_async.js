@@ -1,45 +1,45 @@
-#!/usr/bin/node
-const fs = require("fs");
+const fs = require('fs');
 
-function countStudents(path) {
-  return new Promise((resolve, reject) => {
-    const courses = {};
-    let numberOfStudents = 0;
+const countStudents = (path) => new Promise((resolve, reject) => {
+  fs.readFile(path, 'utf-8', (err, data) => {
+    if (err) {
+      reject(new Error('Cannot load the database'));
+    }
 
-    fs.readFile(path, "utf-8", (err, data) => {
-      if (err) {
-        reject("Cannot load the database");
-      } else {
-        const lines = data.split("\n");
-        for (const line of lines) {
-          const lineData = line.split(",");
-          if (lineData[0] && lineData[0] !== "firstname") {
-            numberOfStudents += 1;
-            if (lineData[3] in courses) {
-              courses[lineData[3]].push(lineData[0]);
-            } else {
-              courses[lineData[3]] = [lineData[0]];
-            }
-          }
-        }
-        console.log(`Number of students: ${numberOfStudents}`);
-        Object.keys(courses).forEach((key) => {
-          const students = courses[key];
-          process.stdout.write(
-            `Number of students in ${key}: ${students.length}. List: `
-          );
-          students.forEach((student, idx) => {
-            process.stdout.write(student);
-            if (idx < student.length - 1) {
-              process.stdout.write(", ");
-            }
-          });
-          console.log();
-        });
-        resolve();
+    if (data) {
+      const students = data.split('\n');
+      students.shift();
+      let i = students.length - 1;
+      while (students[i] === '') {
+        students.pop();
+        i -= 1;
       }
-    });
+      console.log(`Number of students: ${students.length}`);
+
+      const studentsPerCourse = {};
+      for (const s of students) {
+        const studentData = s.split(',');
+        const firstName = studentData[0];
+        const course = studentData[3];
+        if (course in studentsPerCourse) {
+          studentsPerCourse[course].push(firstName);
+        } else {
+          studentsPerCourse[course] = [firstName];
+        }
+      }
+
+      for (const course in studentsPerCourse) {
+        if (course) {
+          console.log(
+            `Number of students in ${course}: ${
+              studentsPerCourse[course].length
+            }. List: ${studentsPerCourse[course].join(', ')}`,
+          );
+        }
+      }
+      resolve(true);
+    }
   });
-}
+});
 
 module.exports = countStudents;
